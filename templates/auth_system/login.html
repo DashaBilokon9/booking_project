@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Вхід{% endblock %}
+
+{% block content %}
+<h1>Вхід</h1>
+<form class="stack" method="post">
+    {% csrf_token %}
+    {% if next %}
+        <input type="hidden" name="next" value="{{ next }}">
+    {% endif %}
+    {{ form.as_p }}
+    <button class="btn" type="submit">Увійти</button>
+</form>
+<p><a href="{% url 'register' %}">Ще немає акаунта?</a></p>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Мої бронювання{% endblock %}
+
+{% block content %}
+<h1>Мої бронювання</h1>
+{% if bookings %}
+    <section class="cards">
+        {% for booking in bookings %}
+            <article class="card">
+                <h2>Кімната {{ booking.room.number }}</h2>
+                <p>{{ booking.check_in }} — {{ booking.check_out }}</p>
+                {% if booking.can_cancel %}
+                    <form method="post" action="{% url 'cancel_booking' booking.id %}">
+                        {% csrf_token %}
+                        <button class="btn btn-danger" type="submit">Скасувати</button>
+                    </form>
+                {% else %}
+                    <p class="muted">Це бронювання вже почалось або минуло — скасувати не можна.</p>
+                {% endif %}
+            </article>
+        {% endfor %}
+    </section>
+{% else %}
+    <p>Поки що немає бронювань.</p>
+{% endif %}
+<p><a href="{% url 'home' %}">До кімнат</a></p>
+{% endblock %}

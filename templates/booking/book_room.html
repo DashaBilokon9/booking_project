@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Бронювання кімнати {{ room.number }}{% endblock %}
+
+{% block content %}
+<h1>Забронювати кімнату {{ room.number }}</h1>
+{% if room.photo %}
+    <img class="card-photo" src="{{ room.photo.url }}" alt="Кімната {{ room.number }}">
+{% endif %}
+<p class="lead">{{ room.capacity }} осіб · {{ room.price_per_night }} грн/ніч</p>
+<form class="stack" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn" type="submit">Підтвердити</button>
+</form>
+<p><a href="{% url 'home' %}">Назад до списку</a></p>
+{% endblock %}

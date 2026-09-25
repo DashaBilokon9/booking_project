@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Кімнати{% endblock %}
+
+{% block content %}
+<h1>Кімнати</h1>
+<p class="lead">Оберіть номер і дати. Дизайн ще простий — головне, щоб дані були правильні.</p>
+
+{% if rooms %}
+    <section class="cards">
+        {% for room in rooms %}
+            <article class="card">
+                {% if room.photo %}
+                    <img class="card-photo" src="{{ room.photo.url }}" alt="Кімната {{ room.number }}">
+                {% endif %}
+                <h2>Кімната {{ room.number }}</h2>
+                <p>{{ room.capacity }} осіб · {{ room.price_per_night }} грн/ніч</p>
+                {% if room.description %}
+                    <p>{{ room.description }}</p>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <a class="btn" href="{% url 'book_room' room.id %}">Забронювати</a>
+                {% else %}
+                    <a class="btn btn-ghost" href="{% url 'login' %}?next={% url 'book_room' room.id %}">Увійти, щоб забронювати</a>
+                {% endif %}
+            </article>
+        {% endfor %}
+    </section>
+{% else %}
+    <p>Поки що немає кімнат. Додай їх у адмінці.</p>
+{% endif %}
+{% endblock %}
